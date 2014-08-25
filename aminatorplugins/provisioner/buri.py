@@ -27,7 +27,7 @@ import shutil
 
 from aminator.plugins.provisioner.base import BaseProvisionerPlugin
 from aminator.config import conf_action
-from aminator.util.linux import command
+from aminator.util.linux import monitor_command
 
 __all__ = ('BuriProvisionerPlugin',)
 log = logging.getLogger(__name__)
@@ -59,7 +59,7 @@ class BuriProvisionerPlugin(BaseProvisionerPlugin):
 
         #extra_vars = config.get('extravars', '')
         log.info('Starting Buri')
-        result = monitor_command('{0}/buri applychroot {1} {2}'.format(config.get('buri_install', '/opt/buri'), self._distro._mountpoint, context.package.arg))
+        result = monitor_command('{0}/buri aminator {1} {2}'.format(config.get('buri_install', '/opt/buri'), self._distro._mountpoint, context.package.arg))
         log.info('Buri Stopped')
         if not result.success:
             log.critical("Buri provisioning failed")
@@ -78,4 +78,7 @@ class BuriProvisionerPlugin(BaseProvisionerPlugin):
         metadata['release'] = time.strftime("%Y%m%d%H%M")
         metadata['extra_vars'] = config.get('extravars', '')
         context.package.attributes = metadata
+
+    def _provision_package(self):
+        ""
 

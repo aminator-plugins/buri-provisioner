@@ -60,7 +60,7 @@ class BuriProvisionerPlugin(BaseProvisionerPlugin):
 
         #extra_vars = config.get('extravars', '')
         log.info('Starting Buri')
-        result = monitor_command('{0}/buri aminator {1} {2}'.format(config.get('buri_install', '/opt/buri'), self._distro._mountpoint, context.package.arg))
+        result = monitor_command('{0}/buri --extra-vars "{1}" aminator {2} {3}'.format(config.get('buri_install', '/opt/buri'), config.get('extravars', ''), self._distro._mountpoint, context.package.arg))
         log.info('Buri Stopped')
         if not result.success:
             log.critical("Buri provisioning failed")

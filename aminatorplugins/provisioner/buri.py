@@ -58,9 +58,16 @@ class BuriProvisionerPlugin(BaseProvisionerPlugin):
         context = self._config.context
         config = self._config.plugins[self.full_name]
 
-        #extra_vars = config.get('extravars', '')
+        buri_base = config.get('buri_install', '/opt/buri')
+        extra_vars = config.get('extravars', '')
+
+        roles_param = ''
+        roles_path = '{0}/local/roles'.format(buri_base)
+        if os.path.exists(roles_path) and not os.path.isfile(roles_path):
+            roles_param = 'ANSIBLE_ROLES_PATH={0} '.format(roles_path)
+
         log.info('Starting Buri')
-        result = monitor_command('{0}/buri --extra-vars "{1}" aminator {2} {3}'.format(config.get('buri_install', '/opt/buri'), config.get('extravars', ''), self._distro._mountpoint, context.package.arg))
+        result = monitor_command('{0}{1}/buri --extra-vars "{2}" aminator {3} {4}'.format(roles_param, buri_base, extra_vars, self._distro._mountpoint, context.package.arg))
         log.info('Buri Stopped')
         if not result.success:
             log.critical("Buri provisioning failed")

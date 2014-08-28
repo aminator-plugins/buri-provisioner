@@ -27,7 +27,7 @@ Then you will need to make add an environment that uses the Buri provisioner to 
     ec2_buri_linux:
         cloud: ec2
         distro: debian
-        provisioner: ansible
+        provisioner: buri
         volume: linux
         blockdevice: linux
         finalizer: tagging_ebs

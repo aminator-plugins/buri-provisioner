@@ -80,8 +80,12 @@ class BuriProvisionerPlugin(BaseProvisionerPlugin):
         """ Store metadata about the AMI created """
         context = self._config.context
         config = self._config.plugins[self.full_name]
+        suffix=''
+        clusterfile = "{0}/tmp/buri_cluster_name".format(self._distro._mountpoint)
+        if os.path.exists(clusterfile) and os.path.isfile(clusterfile):
+            suffix = "-" + open(clusterfile).read().rstrip()
         metadata = {}
-        metadata['name'] = context.package.arg
+        metadata['name'] = context.package.arg + suffix
         metadata['version'] = config.get('appversion', '')
         metadata['release'] = time.strftime("%Y%m%d%H%M")
         metadata['extra_vars'] = config.get('extravars', '')

@@ -36,6 +36,10 @@ Then you can use Aminator with Ansible:
 
     # aminate -e ec2_buri_linux -B ami-1234567 asgard
 
+Instance stored images are possible as well. If you have already generated keys with Buri for it, try something like this (Eventually Buri may have a helper to wrap this):
+
+    # aminate -e ec2_buri_linux_s3 --bucket vfs-amis-dev/generated --cert /opt/buri/local/env/test/bundle_cert.pem --privatekey /opt/buri/local/env/test/bundle_pk.pem --tmpdir /mnt/bundle --ec2-user 123456789012 --vm-type hvm -B ami-1234abcd exhibitor
+
 ### Documentation
 
 See [the wiki](https://github.com/aminator-plugins/buri-provisioner/wiki).
